@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     sass = require('gulp-ruby-sass'),
+    replace = require('gulp-replace'),
     autoprefixer = require('gulp-autoprefixer'),
     browserSync = require('browser-sync').create();
 
@@ -345,3 +346,20 @@ gulp.task('watch', function () {
 
 // Default Task
 gulp.task('default', ['browser-sync', 'watch']);
+
+gulp.task("dist", ['lib'], function () {
+
+    gulp.src([
+        "production/c*/*",
+        "production/image*/*",
+        "production/j*/*"
+    ]).pipe(gulp.dest(DEST + '/html'));
+
+
+    gulp.src([
+        "production/*.html"
+    ])
+    .pipe(replace('../build/', '../'))
+    .pipe(gulp.dest(DEST + '/html'));
+
+})
